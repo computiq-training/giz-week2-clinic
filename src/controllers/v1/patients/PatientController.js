@@ -36,7 +36,8 @@ const getAllPatients = async (req, res)=>{
        {
         $project:{
             full_name:1,
-            phone:1
+            phone:1,
+            history:1
         }
        }
     ])
@@ -47,6 +48,7 @@ const getAllPatients = async (req, res)=>{
 const getPatientById = (req, res)=>{
     const id = req.params.id;
     Patient.findById(id)
+    .populate('history')
     .then((r)=>{
         console.log('retreiving')
         return res.status(200).json(success(200,r,"Success"))
@@ -84,9 +86,7 @@ const updatePatient =  async (req, res)=>{
         
     // }
     try {
-        const p = await Patient.findByIdAndUpdate(id,{
-            full_name:req.body.full_name
-        })
+        const p = await Patient.findByIdAndUpdate(id,req.body)
         return res.status(200).json(success(200,p,"Ok"))
     } catch (error) {
         return res.status(500).json(error(500,"Server Side Error"))
@@ -94,10 +94,13 @@ const updatePatient =  async (req, res)=>{
     }
 }
 
-const getHistoryOfPatient = (req, res)=>{
+const getHistoryOfPatient = async (req, res)=>{
     const id = req.params.id; // patient id
     // TO-DO
-    return res.status(200).json(success(200,{},"Ok"))
+    const p = await Patient.findById(id)
+    .populate('history')
+    let history = p.history;
+    return res.status(200).json(success(200,history,"Ok"))
 }
 
 const createPatient = async (req, res)=>{
@@ -112,42 +115,33 @@ const createPatient = async (req, res)=>{
 }
 
 const searchPatients = async (req, res)=>{
-    const full_name = req.query.keyword
+    const full_name = req.query.full_name
     // let data = await Patient.find({
     //     full_name:{
     //         $regex: `.*${full_name}.*`
     //     }
     // })
-    let data = await Patient.aggregate([
-        {// first stage to filter
-            $match:{
-                gender:{
-                    $eq:req.query.gender
-                }
-            }
+    console.log(full_name)
+    let data = await Patient.find({
+        gender:req.query.gender,
+        full_name:{
+                     $regex: `.*${full_name}.*`  
         }
-        ,
-        // {// second stage
-        //     $group:{
-        //         _id:null,
-        //         count:{
-        //             $sum:1
-        //         }
-        //     }
-        // }
-        {
+    })
+    .populate({
+        path:'history',
+        options:{
             $project:{
                 _id:1,
                 full_name:1,
-                
-            }
-        },
-        {
+                history:1
+            },
             $sort:{
                 full_name:-1
-            }
+            } 
         }
-    ])
+    })
+  
     if(data)
         return res.status(200).json(success(200, data,"OK"))
     
@@ -168,6 +162,16 @@ const newHistory = async (req, res)=>{
     await h.save()
     p.history.push(h._id)
     p.save()
+    // or method 2 to update history array
+    /*
+    let p = await Patient.findByIdAndUpdate(id,
+            {
+                $push:{
+                    history:req.body
+                }
+            }
+        )
+    */
     return res.status(200).json(success(200,p,"Success"))
 }
 module.exports = {
