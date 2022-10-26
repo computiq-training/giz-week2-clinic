@@ -24,6 +24,7 @@ And for history:
 ```
 router.get('/', getAllHistory);// done
 ```
+Now we will need to deal with prescriptions in the history document as embedded collections, as you will see in the specifications below, so each history document has many embedded prescriptions collection.
 ## Specifications
 1- Complete solution with implementing all **TO-DO** comments in the code:
   - Embedd collection `prescriptions` in history document. to make the relationship between history and it's prescriptions as 1-to-many embedded method.
