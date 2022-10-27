@@ -27,7 +27,7 @@ const newprescription = async(req, res)=>{
     await prescription.save()
     history.prescription.push(prescription._id)
     history.save()
-    return res.status(200).json(success(200,his,"Success"))
+    return res.status(200).json(success(200,history,"Success"))
 }
 
 const deleteHistory =async(req,res)=> {
