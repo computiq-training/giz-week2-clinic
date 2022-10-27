@@ -33,13 +33,13 @@ const getAllPatients = async (req, res)=>{
        },
        {$limit:limit - 0},
        {$skip:offset - 0},
-       {
-        $project:{
-            full_name:1,
-            phone:1,
-            history:1
-        }
-       }
+    //    {
+    //     $project:{
+    //         full_name:1,
+    //         phone:1,
+    //         history:1
+    //     }
+    //    }
     ])
     // .limit(limit)
     // .skip(offset)
