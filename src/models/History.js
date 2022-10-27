@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { PrescriptionSchema } = require('./Prescription');
 const Schema = mongoose.Schema
 
 const HistorySchema = new Schema({
@@ -7,8 +8,11 @@ const HistorySchema = new Schema({
         require:true
     },
     report: String,
-    prescription:[ 
-        // TO-DO
+    prescription: [
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Prescription'
+        }
     ]
     
 })
