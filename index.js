@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const patientsRouter = require('./src/routes/v1/patients')
 const historyRouter = require('./src/routes/v1/history')
-
+const presscriptions=require('./src/routes/v1/presscriptions')
 // Connecting to  MongoDB
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/clinic');
@@ -28,5 +28,6 @@ app.get('/', (req, res)=>{
 
 app.use('/api/v1/patients',patientsRouter);
 app.use('/api/v1/history',historyRouter);
+app.use('/api/v1/presscriptions',presscriptions);
 
 app.listen(PORT)
