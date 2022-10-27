@@ -1,18 +1,19 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const { presSchema } = require("./prescriptions");
+const Schema = mongoose.Schema;
 
 const HistorySchema = new Schema({
-    date:{
-        type:String,
-        require:true
+  date: {
+    type: String,
+    require: true,
+  },
+  report: String,
+  prescription: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      prescription: "Prescriptions",
     },
-    report: String,
-    prescription:[ 
-        // TO-DO
-    ]
-    
-})
-const History = mongoose.model('History', HistorySchema);
-module.exports = {
-    History, HistorySchema
-}
+  ],
+});
+
+module.exports = mongoose.model("History", HistorySchema);
