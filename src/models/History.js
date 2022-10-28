@@ -7,9 +7,7 @@ const HistorySchema = new Schema({
         require:true
     },
     report: String,
-    prescription:[ 
-        // TO-DO
-    ]
+    prescription:[]
     
 })
 const History = mongoose.model('History', HistorySchema);
