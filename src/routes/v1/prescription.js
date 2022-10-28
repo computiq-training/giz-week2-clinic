@@ -3,5 +3,5 @@ const router = express.Router()
 const {createPrescription} = require('../../controllers/v1/prescription/PrescriptionController')
 
 
-router.get('/:id', createPrescription);
+router.post('/:id', createPrescription);
 module.exports = router;
