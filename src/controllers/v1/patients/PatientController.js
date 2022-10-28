@@ -160,6 +160,7 @@ const newHistory = async (req, res)=>{
     
     let h = new History(req.body)
     await h.save()
+    
     p.history.push(h._id)
     p.save()
     // or method 2 to update history array
