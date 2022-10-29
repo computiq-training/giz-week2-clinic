@@ -12,5 +12,6 @@ router.put('/:id', updatePatient);
 router.get('/:id/history', getHistoryOfPatient);
 router.post(`/`, createPatient);
 router.post(`/:id/history`, newHistory);
+router.post(`/:id/history`, getAllPrescriptions);
 
 module.exports = router;
