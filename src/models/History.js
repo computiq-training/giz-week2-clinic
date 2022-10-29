@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
-
+const {PrescriptionSchema}=require('../models/prescription')
 const HistorySchema = new Schema({
     date:{
         type:String,
@@ -9,6 +9,7 @@ const HistorySchema = new Schema({
     report: String,
     prescription:[ 
         // TO-DO
+        PrescriptionSchema
     ]
     
 })
