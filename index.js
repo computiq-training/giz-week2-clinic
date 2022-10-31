@@ -2,10 +2,20 @@ const express = require('express')
 const app = express()
 const patientsRouter = require('./src/routes/v1/patients')
 const historyRouter = require('./src/routes/v1/history')
+const AuthRouter = require('./src/routes/v1/auth')
+const {verifyToken} = require('./src/middlewares/verifyJWT')
+const {isAdmin} = require('./src/middlewares/IsAdmin')
+
+require('dotenv').config()
+
+const LOCALHOST = process.env.HOST;
+const DB_PORT = process.env.PORT;
+const DATABASE = process.env.DATABASE;
+const APP_PORT = process.env.APP_PORT;
 
 // Connecting to  MongoDB
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/clinic');
+mongoose.connect(`mongodb://${LOCALHOST}:${DB_PORT}/${DATABASE}`);
 const db = mongoose.connection;
 db.on('error',(e)=>{
     console.error(e)
@@ -26,7 +36,13 @@ app.get('/', (req, res)=>{
 
 // call routers
 
-app.use('/api/v1/patients',patientsRouter);
-app.use('/api/v1/history',historyRouter);
+app.use('/api/v1/patients',[
+    verifyToken,
+    isAdmin
+],patientsRouter);
+app.use('/api/v1/history',[
+    verifyToken
+],historyRouter);
+app.use('/api/v1/auth',AuthRouter);
 
-app.listen(PORT)
+app.listen(APP_PORT)
