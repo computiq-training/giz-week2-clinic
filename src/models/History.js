@@ -9,6 +9,10 @@ const HistorySchema = new Schema({
     report: String,
     prescription:[ 
         // TO-DO
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Prescription",
+          },
     ]
     
 })
