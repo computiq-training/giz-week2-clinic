@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const patientsRouter = require('./src/routes/v1/patients')
 const historyRouter = require('./src/routes/v1/history')
-
+const prescriptionsRouter = require("./src/routes/v1/presscriptions");
 // Connecting to  MongoDB
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/clinic');
@@ -15,7 +15,7 @@ db.once('open', ()=>{
     console.log('Connected to DB successfully')
 })
 
-const PORT = 5000;
+const PORT = 5099
 // middlwares
 app.use(express.json())
 
@@ -28,5 +28,7 @@ app.get('/', (req, res)=>{
 
 app.use('/api/v1/patients',patientsRouter);
 app.use('/api/v1/history',historyRouter);
+app.use('/api/v1/presscriptions',prescriptionsRouter);
+
 
 app.listen(PORT)

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
+const PrescriptionScema= require('./Prescription')
 
 const HistorySchema = new Schema({
     date:{
@@ -7,9 +8,11 @@ const HistorySchema = new Schema({
         require:true
     },
     report: String,
-    prescription:[ 
-        // TO-DO
-    ]
+    prescription:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Prescription",
+
+    }
     
 })
 const History = mongoose.model('History', HistorySchema);
