@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const {newHistory,searchPatients,createPatient,getAllPatients, getPatientById, deletePatient, updatePatient, getHistoryOfPatient} = require('../../controllers/v1/patients/PatientController')
-
+const uploadMW = require('../../middlewares/upload')
 
 
 router.get('/', getAllPatients);
@@ -11,6 +11,6 @@ router.delete('/:id', deletePatient);
 router.put('/:id', updatePatient);
 router.get('/:id/history', getHistoryOfPatient);
 router.post(`/`, createPatient);
-router.post(`/:id/history`, newHistory);
+router.post(`/:id/history`, uploadMW ,newHistory);
 
 module.exports = router;

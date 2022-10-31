@@ -160,8 +160,22 @@ const newHistory = async (req, res)=>{
     
     let h = new History(req.body)
     await h.save()
+    if(!p.history)
+        p.history = []
     p.history.push(h._id)
-    p.save()
+    await p.save()
+    console.log('file', req.file)
+    // for attachments
+    if(req.file)
+    {
+        
+        if(!h.attachments)
+            h.attachments = []
+         
+        h.attachments.push(req.file.originalname)
+        await h.save()
+    }
+   
     // or method 2 to update history array
     /*
     let p = await Patient.findByIdAndUpdate(id,

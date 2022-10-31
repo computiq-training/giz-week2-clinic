@@ -28,7 +28,7 @@ db.once('open', ()=>{
 const PORT = 5000;
 // middlwares
 app.use(express.json())
-
+app.use(express.static('public/resources/uploads'))
 // for testing
 app.get('/', (req, res)=>{
     res.send('<h1>This is Clinic Restful API</h1>')
