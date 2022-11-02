@@ -13,7 +13,7 @@ const Patient = new Schema({
             type:mongoose.Schema.Types.ObjectId,
             ref:'History'
         }
-    ]
+    ],
 })
 
 module.exports = mongoose.model('Patient', Patient);
