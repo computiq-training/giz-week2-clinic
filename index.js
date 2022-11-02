@@ -15,7 +15,15 @@ const APP_PORT = process.env.APP_PORT;
 
 // Connecting to  MongoDB
 const mongoose = require('mongoose')
-mongoose.connect(`mongodb://${LOCALHOST}:${DB_PORT}/${DATABASE}`);
+if(process.env.ENVIRONMENT == 'development')
+{
+    mongoose.connect(`mongodb://${LOCALHOST}:${DB_PORT}/${DATABASE}`);
+}
+if(process.env.ENVIRONMENT == 'staging')
+{
+    console.log('Con string is: ',process.env.MONGO_CLOUD_CON)
+    mongoose.connect(process.env.MONGO_CLOUD_CON);
+}
 const db = mongoose.connection;
 db.on('error',(e)=>{
     console.error(e)
@@ -25,7 +33,6 @@ db.once('open', ()=>{
     console.log('Connected to DB successfully')
 })
 
-const PORT = 5000;
 // middlwares
 app.use(express.json())
 app.use(express.static('public'))
